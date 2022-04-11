@@ -1,6 +1,6 @@
 from kivy.config import Config
 Config.set('graphics', 'width', '800')
-Config.set('graphics', 'height', '280')
+Config.set('graphics', 'height', '300')
 Config.set('graphics', 'resizable', False)
 
 from pytube import YouTube
@@ -19,6 +19,11 @@ MDBoxLayout:
         size_hint: [.9, .9]
         pos_hint: { 'top' : .95, 'right': .95}
         orientation: "vertical"
+        BoxLayout:
+            padding: "10dp"
+            MDProgressBar:
+                id: progress
+                value: 0
         MDLabel:
             text: "Fill the field and click the Launch! button"       
         MDTextField:
@@ -57,14 +62,22 @@ class Downloader(MDApp):
         self.root.ids.urlfield.text = ""
         self.dialog.dismiss()
 
+    def progress(self, stream=None, chunk=None, remaining=None):
+        percent = (100 * (file_size - remaining)) / file_size
+        self.root.ids.progress.value = percent
+
     def test(self):
         link = self.root.ids.urlfield.text
         domain1 = 'youtube.com/watch'
         domain2 = "youtu.be/"
         if domain1 in link or domain2 in link:
-            yt = YouTube(self.root.ids.urlfield.text)
+            global file_size
+            yt = YouTube(self.root.ids.urlfield.text, on_progress_callback=self.progress)
             print("Downloading...")
-            yt.streams.filter(progressive=True).last().download()
+            yt = yt.streams.filter(progressive=True).last()
+            file_size = yt.filesize
+
+            yt.download()
             print("Download completed!!")
         else:
             if not self.dialog:
