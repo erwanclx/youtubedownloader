@@ -23,7 +23,7 @@ python main.py
 
 - [ ]  Change the Window and the taskbar logo
 
-- [ ]  Multiple choice for quality and only audio
+- [ ]  Multiple choice for quality and only audio choice
 
 
 
