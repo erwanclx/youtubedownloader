@@ -15,7 +15,7 @@ import threading
 KV = '''
 MDBoxLayout:
     orientation: "vertical"      
-    MDToolbar:
+    MDTopAppBar:
         title: "Youtube Downloader"
         md_bg_color: app.theme_cls.primary_color 
     MDBoxLayout:
@@ -65,6 +65,7 @@ class Downloader(MDApp):
 
     def build(self):
         self.theme_cls.primary_palette = "Teal"
+        self.icon = 'icon.png'
         return Builder.load_string(KV)
 
     def close_dialog(self, inst):
