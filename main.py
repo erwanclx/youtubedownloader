@@ -8,6 +8,7 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
+import threading
 
 KV = '''
 MDBoxLayout:
@@ -36,7 +37,7 @@ MDBoxLayout:
             MDFillRoundFlatIconButton:
                 text: "Launch!"
                 icon: "arrow-right-circle" 
-                on_release: app.test()
+                on_release: app.init_dl()
                 pos_hint: {"center_x": .9, "center_y": .5}
                 
             MDFloatLayout:
@@ -49,7 +50,12 @@ MDBoxLayout:
 
 
 class Downloader(MDApp):
+
     dialog = None
+
+    def init_dl(self):
+        self.new_thread = threading.Thread(target=self.download)
+        self.new_thread.start()
 
     def build(self):
         self.theme_cls.primary_palette = "Teal"
@@ -66,7 +72,7 @@ class Downloader(MDApp):
         percent = (100 * (file_size - remaining)) / file_size
         self.root.ids.progress.value = percent
 
-    def test(self):
+    def download(self):
         link = self.root.ids.urlfield.text
         domain1 = 'youtube.com/watch'
         domain2 = "youtu.be/"
