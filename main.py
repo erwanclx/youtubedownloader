@@ -1,4 +1,6 @@
+from kivy.clock import mainthread
 from kivy.config import Config
+
 Config.set('graphics', 'width', '800')
 Config.set('graphics', 'height', '300')
 Config.set('graphics', 'resizable', False)
@@ -50,19 +52,24 @@ MDBoxLayout:
 
 
 class Downloader(MDApp):
-
     dialog = None
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+
     def init_dl(self):
-        self.new_thread = threading.Thread(target=self.download)
-        self.new_thread.start()
+        self.dl_thread = threading.Thread(target=self.download)
+        self.dl_thread.start()
 
     def build(self):
         self.theme_cls.primary_palette = "Teal"
         return Builder.load_string(KV)
 
     def close_dialog(self, inst):
-        self.dialog.dismiss()
+        self.dialog.dismiss(force=True)
+        self.dialog = ""
 
     def clear(self, inst):
         self.root.ids.urlfield.text = ""
@@ -79,13 +86,37 @@ class Downloader(MDApp):
         if domain1 in link or domain2 in link:
             global file_size
             yt = YouTube(self.root.ids.urlfield.text, on_progress_callback=self.progress)
-            print("Downloading...")
             yt = yt.streams.filter(progressive=True).last()
             file_size = yt.filesize
-
+            print('start')
             yt.download()
-            print("Download completed!!")
+            print('end')
+            threading.Thread(target=self.download_dialog(1)).start()
+            self.download_dialog(1)
         else:
+            threading.Thread(target=self.download_dialog(2)).start()
+            self.download_dialog(2)
+
+    @mainthread
+    def download_dialog(self, value):
+        dialog = None
+        print(value)
+        if value == 1:
+            if not self.dialog:
+                self.dialog = MDDialog(
+                    text="Successful download!",
+                    buttons=[
+                        MDFlatButton(
+                            text="OK",
+                            theme_text_color="Custom",
+                            text_color=self.theme_cls.primary_color,
+                            on_release=self.close_dialog
+                        )
+                    ],
+                )
+            self.dialog.open()
+
+        elif value == 2:
             if not self.dialog:
                 self.dialog = MDDialog(
                     text="Please enter a valid Youtube link",
@@ -120,5 +151,6 @@ class Downloader(MDApp):
                 ],
             )
         self.dialog.open()
+
 
 Downloader().run()
