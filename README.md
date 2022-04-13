@@ -7,7 +7,7 @@
 
 #### On Windows :
 
-No installation or dependences is required. Just download Youtube Downloader.exe at the following link : https://github.com/erwanclx/youtubedownloader/releases/download/v1.0/Youtube.Downloader.exe
+No installation or dependences is required. Just download Youtube Downloader.exe at the following link : https://github.com/erwanclx/youtubedownloader/releases/latest/download/Youtube.Downloader.exe
 
 #### On other OS/Using Python:
 
