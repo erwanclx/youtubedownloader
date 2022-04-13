@@ -23,8 +23,10 @@ python main.py
 
 - [ ]  Change the Window and the taskbar logo
 
-- [ ]  Multiple choice for quality and only audio
+- [ ]  Multiple choice for quality and only audio choice
 
 
 
 ## Support :
+
+[![](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/erwanclx)
