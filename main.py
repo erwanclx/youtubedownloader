@@ -15,7 +15,7 @@ import threading
 KV = '''
 MDBoxLayout:
     orientation: "vertical"      
-    MDTopAppBar:
+    MDToolbar:
         title: "Youtube Downloader"
         md_bg_color: app.theme_cls.primary_color 
     MDBoxLayout:
