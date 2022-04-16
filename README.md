@@ -20,7 +20,7 @@ python main.py
 
 ## To-Do/Incoming :
 
-- [ ]  Reduce thickness of progressbar in compilated version
+- [x]  Reduce thickness of progressbar in compilated version
 
 - [ ]  Change the Window and the taskbar logo
 
